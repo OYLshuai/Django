@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -50,12 +51,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = 'DjangoProject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR+"/templates"],
+        'DIRS': ['appfront/dist'],
+        ##'DIRS': [BASE_DIR+"/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +74,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 
+# Add for vuejs
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "appfront/dist/static"),
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

@@ -8,7 +8,10 @@ from django.conf.urls import url
 from . import views
 from . import textdb
 
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^testdb$', textdb.testdb),
+    url(r'^add_book$', views.add_book, ),
+    url(r'^show_books$', views.show_books, ),
 ]
