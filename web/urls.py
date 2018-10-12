@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^testdb$', textdb.testdb),
     url(r'^add_book$', views.add_book, ),
     url(r'^show_books$', views.show_books, ),
+    url(r'^del_book$', views.del_book, ),
 ]
