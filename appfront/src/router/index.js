@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Index from '@/components/Index'
-import Mark from '@/components/Mark'
+import Home from '@/components/menu/Home'
+import Index from '@/components/menu/Index'
+import Mark from '@/components/query/Mark'
 
 
 Vue.use(Router)

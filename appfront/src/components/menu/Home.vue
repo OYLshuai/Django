@@ -7,13 +7,13 @@
     <el-row>
         <el-table :data="bookList" height="510" style="width: 100%" border>
           <el-table-column prop="id" label="编号" min-width="100">
-            <template scope="scope"> {{ scope.row.pk }} </template>
+            <template slot-scope="scope"> {{ scope.row.pk }} </template>
           </el-table-column>
           <el-table-column prop="book_name" label="书名" min-width="100">
-            <template scope="scope"> {{ scope.row.fields.book_name }} </template>
+            <template slot-scope="scope"> {{ scope.row.fields.book_name }} </template>
           </el-table-column>
           <el-table-column prop="add_time" label="添加时间" min-width="100">
-            <template scope="scope"> {{ scope.row.fields.add_time }} </template>
+            <template slot-scope="scope"> {{ scope.row.fields.add_time }} </template>
           </el-table-column>
           <el-table-column prop="operate" label="操作" min-width="100">
             <template slot-scope="scope">
