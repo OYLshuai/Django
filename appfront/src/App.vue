@@ -8,10 +8,10 @@
           <el-dropdown-menu slot="dropdown">
             <router-link to="/info"><el-dropdown-item>个人信息  <i class="el-icon-view"></i></el-dropdown-item></router-link>
             <router-link to="/message"><el-dropdown-item>未读消息  <i class="el-icon-phone-outline"></i></el-dropdown-item></router-link>
-            <el-dropdown-item>退出登录  <i class="el-icon-circle-close"></i></el-dropdown-item>
+            <router-link to="/logout"><el-dropdown-item>切换用户  <i class="el-icon-circle-close"></i></el-dropdown-item></router-link>
           </el-dropdown-menu>
         </el-dropdown>
-        <img src="./assets/image/logo.png" style="width: 120px;padding-left: 1100px;float: right;padding-top: 4px;">
+        <img src="./assets/image/logo.png" style="width: 120px;padding-left: 1100px;float: right;padding-top: 3px;">
       </el-header>
       
       <el-container :span="20" style="height: 580px;">
@@ -53,13 +53,52 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'Vuex'
 export default {
   name: 'App',
   data() {
     return {
-      imgUrl:'./assets/image/logo.jpg'
+      isLogin: false,
+      userInfo: { //保存用户信息
+        nick: null,
+        ulevel: null,
+        uid: null,
+        portrait: null
+      }
     }
-  }
+  },
+  mounted(){
+    //组件开始挂载时获取用户信息
+    this.getUserInfo();
+  },
+  methods: {
+    //请求用户的一些信息
+    getUserInfo(){
+      //发送http请求获取，这里写死作演示
+      this.userInfo = {
+        nick: 'Doterlin',
+        ulevel: 20,
+        uname: "璐哥牛皮",
+        uid: '10000',
+        uphone:"13011112222",
+        portrait: 'images/profile.png'
+      }
+      //实例开发中这里会向服务端请求数据
+      //如下(用了vue-resource):
+      /*ts.$http.get(url, {
+        //参数
+        "params":{}
+      }).then((response) => {
+        //Success
+      }, (response) => {
+        //Error
+      });*/
+      //提交mutation到Store
+      //this.$store.commit('updateUserInfo', this.userInfo); 
+    }
+  },
+
 }
 </script>
 

@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 Vue.use(VueResource);
-
+ 
 new Vue({
   el: '#app',
   router,

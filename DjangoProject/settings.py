@@ -72,6 +72,11 @@ TEMPLATES = [
     },
 ]
 
+# 控制登陆验证可以通过邮箱  手机号码登陆
+AUTHENTICATION_BACKENDS = [
+    'web.views.CustomBackend',
+]
+
 WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 
 # Add for vuejs

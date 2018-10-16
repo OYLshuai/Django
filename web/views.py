@@ -5,12 +5,11 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-
+from django.db.models import Q
 
 from web.models import *
 
 # Create your views here.
-
 def index(request):
     return HttpResponse("Hello, world. You're at the app index.")
 
@@ -47,9 +46,30 @@ def show_books(request):
     response = {}
     try:
         books = Book.objects.filter()
-        response['list']  = json.loads(serializers.serialize("json", books))
+        response['list'] = json.loads(serializers.serialize("json", books))
         response['msg'] = 'success'
         response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+
+    return JsonResponse(response)
+
+@require_http_methods(["GET"])
+def check_user(request):
+    response = {}
+    try:
+        email = request.GET.get('user_email')
+        pwd = request.GET.get('user_pwd')
+        user = User.objects.filter(Q(user_email=email))
+        list_user = list(user)
+        if list_user[0].password == pwd:
+            response['msg'] = '欢迎你 - ' + list_user[0].user_name
+            response['list'] = json.loads(serializers.serialize("json", user))
+            response['error_num'] = 0
+        else:
+            response['msg'] = 'password is worry'
+            response['error_num'] = 2
     except  Exception as e:
         response['msg'] = str(e)
         response['error_num'] = 1

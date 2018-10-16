@@ -16,3 +16,12 @@ class Book(models.Model):
 
     def __unicode__(self):
         return self.book_name
+
+class User(models.Model):
+    user_name = models.CharField(max_length=64)
+    password = models.CharField(max_length=64)
+    user_email = models.EmailField()
+    user_phone = models.CharField(max_length=18, default=' ')
+
+    def __unicode__(self):
+        return self.user_name
