@@ -25,3 +25,15 @@ class User(models.Model):
 
     def __unicode__(self):
         return self.user_name
+
+class Message(models.Model):
+    user_email = models.EmailField();
+    message = models.CharField(max_length=255);
+    msg_date = models.DateTimeField();
+    msg_remark = models.CharField(max_length=255);
+    deal_remark = models.CharField(max_length=255);
+    deal_flag = models.CharField(max_length=2, default='0');
+    deal_date = models.DateTimeField();
+
+    def __unicode__(self):
+        return self.user_email

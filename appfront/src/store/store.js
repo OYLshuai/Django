@@ -5,23 +5,33 @@ Vue.use(Vuex);
 //Vuex配置
 const store = new Vuex.Store({
     state: {
-      domain:'http://test.example.com', //保存后台请求的地址，修改时方便（比方说从测试服改成正式服域名）
+      domain:'http://127.0.0.1:8000/web/', //保存后台请求的地址，修改时方便（比方说从测试服改成正式服域名）
       userInfo: { //保存用户信息
-        nick: null,
-        ulevel: null,
-        uname: null,
-        uid: null,
-        uphone:null,
-        portrait: null
-      }
+        name: '请登陆查看信息',
+        email: 'null',
+        phone: 'null'
+      },
+      msg:""
     },
     mutations: {
       //更新用户信息
       updateUserInfo(state, newUserInfo) {
         state.userInfo = newUserInfo;
+      },
+      
+      //测试
+      updateMsg(state, data) {
+        state.msg = data;
       }
+    },
+    actions: {
+      commitUserList:({commit},userInfo) => commit('updateUserInfo',userInfo),
+      commitMsg:({commit},data) => commit('updateMsg',data)
+
     }
   })
+
+  export default store
   
   //设置cookie,增加到vue实例方便全局调用
   //vue全局调用的理由是，有些组件所用到的接口可能需要session验证，session从cookie获取

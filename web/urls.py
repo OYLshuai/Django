@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^show_books$', views.show_books, ),
     url(r'^del_book$', views.del_book, ),
     url(r'^check_user$', views.check_user, ),
+    url(r'^show_message$', views.show_message, ),
 ]

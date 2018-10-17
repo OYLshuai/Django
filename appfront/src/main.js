@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import '../theme/index.css'
 import VueResource from 'vue-resource'
+import store from './store/store.js'
 
 Vue.config.productionTip = false
 
@@ -16,6 +17,7 @@ Vue.use(VueResource);
  
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'

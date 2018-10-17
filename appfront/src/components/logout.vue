@@ -11,7 +11,7 @@
             <el-input  v-model="loginFrom.user_email" ref="user_email"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="user_pwd">
-            <el-input v-model="loginFrom.user_pwd" ref="user_pwd"></el-input>
+            <el-input type="password" v-model="loginFrom.user_pwd" ref="user_pwd"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit(loginFrom)">切换用户</el-button>
@@ -25,17 +25,14 @@ export default {
   '/logout': 'Logout',
   data() {
       return {
-        labelPosition: 'right',
-        loginFrom: [{
-          model: '',
-          pk: '',
-          fields:{
-            user_name: '',
-            password: '',
-            user_email: '',
-            user_phone: ''
-          }
-        }],
+        textUser : this.$store.state,
+        labelPosition: 'left',
+        loginFrom: {
+          name: '',
+          email: '',
+          phone: ''
+        },
+        mssg:"",
         dataList:[],
         rules:{
             user_email: [
@@ -58,11 +55,15 @@ export default {
             .then((response) => {
                 var res = JSON.parse(response.bodyText)
                 if (res.error_num == 0) {
-                    this.loginFrom = res['list']
-                    console.log("aaaaaaaaaaaaa",this.loginFrom)
+                    this.loginFrom.name = (res['name'])
+                    this.loginFrom.email = (res['email'])
+                    this.loginFrom.phone = (res['phone'])
                     this.dataList = res['list']
-                    console.log("sssssssssssss",this.dataList)
+                    this.mssg = res['msg']
                     this.$message.success('登录成功: ' + res['msg'])
+                    this.$store.dispatch('commitMsg',res['msg']);
+                    this.$store.dispatch('commitUserList',this.loginFrom);
+                    this.$router.push({name:'Info', params:{name:res['name'], email:res['email'], phone:res['phone']}});
                 } else {
                     this.$message.error('登录失败:' + res['msg'])
                     console.log(res['msg'])
