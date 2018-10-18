@@ -11,12 +11,26 @@ const store = new Vuex.Store({
         email: 'null',
         phone: 'null'
       },
-      msg:""
+      userMessage:{
+        allMessage: [],
+        messageed: [],
+        messageing: [],
+        count: " "
+      },
+      msg:"",
     },
     mutations: {
       //更新用户信息
       updateUserInfo(state, newUserInfo) {
         state.userInfo = newUserInfo;
+      },
+      
+      //更新用户处理信息
+      updateUserMessage(state, newMessage) {
+        state.userMessage.allMessage = newMessage.allmsg;
+        state.userMessage.messageed = newMessage.msged;
+        state.userMessage.messageing = newMessage.msging;
+        state.userMessage.count = newMessage.count;
       },
       
       //测试
@@ -26,7 +40,8 @@ const store = new Vuex.Store({
     },
     actions: {
       commitUserList:({commit},userInfo) => commit('updateUserInfo',userInfo),
-      commitMsg:({commit},data) => commit('updateMsg',data)
+      commitMsg:({commit},data) => commit('updateMsg',data),
+      commitMessage:({commit},newMessage) => commit('updateUserMessage',newMessage)
 
     }
   })

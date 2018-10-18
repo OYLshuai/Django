@@ -7,7 +7,7 @@
           <i class="el-icon-setting" style="margin-left: 15px"></i>
           <el-dropdown-menu slot="dropdown">
             <router-link to="/info"><el-dropdown-item>个人信息  <i class="el-icon-view"></i></el-dropdown-item></router-link>
-            <router-link to="/message"><el-dropdown-item>未读消息  <i class="el-icon-phone-outline"></i></el-dropdown-item></router-link>
+            <router-link to="/message"><el-dropdown-item>未读消息 <i class="el-icon-phone-outline"></i></el-dropdown-item></router-link>
             <router-link to="/logout"><el-dropdown-item>切换用户  <i class="el-icon-circle-close"></i></el-dropdown-item></router-link>
           </el-dropdown-menu>
         </el-dropdown>
@@ -62,6 +62,8 @@ export default {
     return {
       isLogin: false,
       userInfo: this.$store.state,
+      messageData: this.$store.state.userMessage,
+      count: this.$store.state.userMessage.count,
       msg: "",
     }
   },
@@ -75,7 +77,6 @@ export default {
       console.log("sssssssssssss",login);
       //this.userInfo = login
     },
-
   }
 }
 </script>

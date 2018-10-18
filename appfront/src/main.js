@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import '../theme/index.css'
 import VueResource from 'vue-resource'
 import store from './store/store.js'
+import formatDate from './assets/js/data.js'
 
 Vue.config.productionTip = false
 
@@ -19,6 +20,7 @@ new Vue({
   el: '#app',
   store,
   router,
+  formatDate,
   components: { App },
   template: '<App/>'
 })
