@@ -34,7 +34,7 @@
             </el-table-column>
             <el-table-column prop="tag" label="处理状态" width="100" :filters="[{ text: '已读', value: '1' }, { text: '未读', value: '0' }]" :filter-method="filterTag" filter-placement="bottom-end">
               <template slot-scope="scope">
-                <el-tag :type="scope.row.fields.deal_flag === '0' ? 'danger' : 'success'" disable-transitions>{{farmtTag(scope.row.fields.deal_flag)}}</el-tag>
+                <el-tag :type="scope.row.fields.deal_flag === '1' ? 'success' : 'danger'" disable-transitions>{{farmtTag(scope.row.fields.deal_flag)}}</el-tag>
               </template>
             </el-table-column>
           </el-table>
@@ -73,10 +73,10 @@ export default {
     },
 
     farmtTag(row) {
-        if(row == '0'){
-          return "未读";
-        } else {
+        if(row == '1'){
           return "已读";
+        } else {
+          return "未读";
         }
     },
 

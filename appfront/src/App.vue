@@ -22,7 +22,7 @@
               <el-menu-item-group>
                 <router-link to="/index"><el-menu-item index="1-1">首页</el-menu-item></router-link>
                 <router-link to="/home"><el-menu-item index="1-2">书籍管理</el-menu-item></router-link>
-                <el-menu-item index="1-3">待定</el-menu-item>
+                <router-link to="/makeMessage"><el-menu-item index="1-3">消息推送</el-menu-item></router-link>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">

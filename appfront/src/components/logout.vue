@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit(loginFrom)">切换用户</el-button>
-            <el-button type="primary" @click="SysMessage()">同步信息</el-button>
+            <!-- <el-button type="primary" @click="SysMessage()">同步信息</el-button> -->
         </el-form-item>
     </el-form>
   </div>
@@ -27,6 +27,7 @@ export default {
   data() {
       return {
         textUser : this.$store.state,
+        userMessage : this.$store.state.userMessage,
         labelPosition: 'left',
         loginFrom: {
           name: '',
@@ -64,6 +65,7 @@ export default {
                     this.$message.success('登录成功: ' + res['msg'])
                     this.$store.dispatch('commitMsg',res['msg']);
                     this.$store.dispatch('commitUserList',this.loginFrom);
+                    this.SysMessage();
                 } else {
                     this.$message.error('登录失败:' + res['msg'])
                     console.log(res['msg'])
@@ -81,7 +83,8 @@ export default {
                 var res = JSON.parse(response.bodyText)
                 if (res.error_num == 0) {
                     this.$store.dispatch('commitMessage',res);
-                    this.$message.success('获取消息成功: 共' + res['count'] + '条未读记录')
+                    //this.$message.success('获取消息成功: '+ this.textUser.userInfo.name + '你共' + res['count'] + '条未读记录')
+                    this.messageTip();
                 } else {
                     this.$message.error('获取消息失败: ' + res['msg'])
                     console.log(res['msg'])
@@ -90,7 +93,13 @@ export default {
           } else {
             this.$message.error('同步失败: 邮箱错误')
           }
-      }
+      },
+        messageTip() {
+            this.$notify({
+                title: this.textUser.userInfo.name,
+                message: '你共' + this.userMessage.count + '条未读记录'
+            });
+        },
     },
 }
 </script>

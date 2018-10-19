@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     addBook(){
-      this.$http.get('http://127.0.0.1:8000/web/add_book?book_name=' + this.input)
+      this.$http.get('web/add_book?book_name=' + this.input)
         .then((response) => {
             var res = JSON.parse(response.bodyText)
             if (res.error_num == 0) {
@@ -55,7 +55,7 @@ export default {
         })
     },
     delBook(index, row){
-      this.$http.get('http://127.0.0.1:8000/web/del_book?book_name=' + row.fields.book_name + '&&id=' + row.pk)
+      this.$http.get('web/del_book?book_name=' + row.fields.book_name + '&&id=' + row.pk)
         .then((response) => {
             var res = JSON.parse(response.bodyText)
             if (res.error_num == 0) {
@@ -68,7 +68,7 @@ export default {
         })
     },
     showBooks(){
-      this.$http.get('http://127.0.0.1:8000/web/show_books')
+      this.$http.get('web/show_books')
         .then((response) => {
             var res = JSON.parse(response.bodyText)
             console.log(res)

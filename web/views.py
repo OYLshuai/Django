@@ -4,6 +4,7 @@ import json
 from django.core import serializers
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 
@@ -80,6 +81,20 @@ def check_user(request):
     return JsonResponse(response)
 
 @require_http_methods(["GET"])
+def get_users(request):
+    response = {}
+    try:
+        user = User.objects.values('user_email', 'user_name')
+        list_user = list(user)
+        response['list_user'] = list_user
+        response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+
+    return JsonResponse(response)
+
+@require_http_methods(["GET"])
 def show_message(request):
     response = {}
     try:
@@ -111,6 +126,20 @@ def mod_msg(request):
         Message.objects.filter(id=id).update(message=request.GET.get('loginFrom[message]'), msg_date=request.GET.get('loginFrom[msg_date]')
                                              , msg_remark=request.GET.get('loginFrom[msg_remark]'), deal_remark=request.GET.get('loginFrom[deal_remark]')
                                              , deal_flag=request.GET.get('loginFrom[deal_flag]'), deal_date=request.GET.get('loginFrom[deal_date]'))
+        response['error_num'] = 0
+        response['msg'] = 'success'
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def add_msg(request):
+    response = {}
+    try:
+        MSG = Message(request.GET.get('Message'))
+        MSG.save()
         response['error_num'] = 0
         response['msg'] = 'success'
     except  Exception as e:

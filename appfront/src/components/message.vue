@@ -15,21 +15,21 @@
         <el-table-column prop="message" label="消息内容" width="180"> 
           <template slot-scope="scope"> {{ scope.row.fields.message }} </template>
         </el-table-column>
-        <el-table-column  prop="msg_remark" label="消息备注"> 
+        <el-table-column  prop="msg_remark" label="消息备注" width="180"> 
           <template slot-scope="scope"> {{ scope.row.fields.msg_remark }} </template>
         </el-table-column> 
-        <el-table-column  prop="deal_remark" label="处理备注"> 
+        <el-table-column  prop="deal_remark" label="处理备注" width="180"> 
           <template slot-scope="scope"> {{ scope.row.fields.deal_remark }} </template>
         </el-table-column>
-        <el-table-column  prop="deal_date" label="处理日期"> 
+        <el-table-column  prop="deal_date" label="处理日期" width="180"> 
           <template slot-scope="scope"> {{farmtDateTime(scope.row.fields.deal_date)}} </template>
         </el-table-column>
         <el-table-column prop="tag" label="处理状态" width="100" :filters="[{ text: '已读', value: '1' }, { text: '未读', value: '0' }]" :filter-method="filterTag" filter-placement="bottom-end">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.fields.deal_flag === '0' ? 'danger' : 'success'" disable-transitions>{{farmtTag(scope.row.fields.deal_flag)}}</el-tag>
+            <el-tag :type="scope.row.fields.deal_flag === '1' ? 'success' : 'danger'" disable-transitions>{{farmtTag(scope.row.fields.deal_flag)}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="operate" label="操作" min-width="100">
+        <el-table-column prop="operate" label="操作" min-width="100" fixed="right">
           <template slot-scope="scope">
             <el-button @click = "deal(scope.$index, scope.row)" type="text" size="small"> 
               处理 
@@ -139,10 +139,10 @@ export default {
     },
 
     farmtTag(row) {
-        if(row == '0'){
-          return "未读";
-        } else {
+        if(row == '1'){
           return "已读";
+        } else {
+          return "未读";
         }
     },
 
@@ -177,13 +177,10 @@ export default {
             this.loginFrom.deal_flag = '1';
             this.loginFrom.deal_date = formatDate(myDate,'yyyy-MM-dd hh:mm:ss')
             var data = this.loginFrom;
-            console.log("hhhhhhhhh",JSON.stringify(data));
-            console.log(data.deal_date,myDate);
             this.$http.get('http://127.0.0.1:8000/web/mod_msg',{params: {"loginFrom":this.loginFrom} })
             .then((response) => {
                 var res = JSON.parse(response.bodyText)
                 if (res.error_num == 0) {
-                  
                    this.dealMsgFrom = false
                    this.$message.success('处理成功: 处理时间为' + data.deal_date)
                 } else {

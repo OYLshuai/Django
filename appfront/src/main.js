@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from './axios';//通过import引入
 import ElementUI from 'element-ui'
 import '../theme/index.css'
 import VueResource from 'vue-resource'
@@ -21,6 +22,7 @@ new Vue({
   store,
   router,
   formatDate,
+  axios,//通过import引入，然后在这里调用
   components: { App },
   template: '<App/>'
 })

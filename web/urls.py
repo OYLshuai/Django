@@ -18,4 +18,6 @@ urlpatterns = [
     url(r'^check_user$', views.check_user, ),
     url(r'^show_message$', views.show_message, ),
     url(r'^mod_msg$', views.mod_msg, ),
+    url(r'^add_msg$', views.add_msg, ),
+    url(r'^get_users$', views.get_users, ),
 ]
