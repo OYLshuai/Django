@@ -4,6 +4,7 @@
       <el-row>
         <el-col :span="24" >
           <el-tag type="info">姓名：</el-tag> <el-tag type="success">{{ textUser.userInfo.name }}</el-tag>
+          <el-button type="primary" icon="el-icon-refresh" circle  style="float: right;" size="small" @click="refreshMessage()"></el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -109,6 +110,7 @@ export default {
       dealMsgFrom: false,
       textUser : this.$store.state,
       tableData: this.$store.state.userMessage.allMessage,
+      userMessage : this.$store.state.userMessage,
       userInfo: {
         name : "",
         phone : "",
@@ -193,7 +195,26 @@ export default {
           }
         });
     },
+    refreshMessage(){
+    if(this.textUser.userInfo.email != 'null'){
+        this.$http.get('http://127.0.0.1:8000/web/show_message',{params: {"user_email":this.textUser.userInfo.email} })
+        .then((response) => {
+            var res = JSON.parse(response.bodyText)
+            if (res.error_num == 0) {
+                this.$store.dispatch('commitMessage',res);
+                this.tableData = this.$store.state.userMessage.allMessage
+                this.$message.success('获取消息成功:共 ' + this.userMessage.count + ' 条新信息')
+            } else {
+                this.$message.error('获取消息失败: ' + res['msg'])
+                console.log(res['msg'])
+            }
+        })
+      } else {
+        this.$message.error('同步失败: 邮箱错误')
+      }
+    },
   },
+  
   watch: {
   // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
     '$route': 'getUserInfo'

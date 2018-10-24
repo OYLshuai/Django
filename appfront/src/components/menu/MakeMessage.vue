@@ -28,11 +28,13 @@
 
 <script>
 import formatDate from './../../assets/js/data.js'
+import Qs from 'qs'
 
 export default {
   '/makeMessage': 'MakeMessage',
   data() {
       return {
+        textUser : this.$store.state,
         UsersInfo:[],
         form: {
           user: '',
@@ -57,54 +59,54 @@ export default {
     },
     methods: {
         optionInit(){
-            this.$http.get('web/get_users',{})
-            .then((response) => {
-                var res = JSON.parse(response.bodyText)
-                if (res.error_num == 0) {
-                    this.UsersInfo = res.list_user;
-                }
-            })
+            if(this.textUser.userInfo.email != 'null'){
+                this.$http.get('web/get_users',{})
+                .then((response) => {
+                    var res = JSON.parse(response.bodyText)
+                    if (res.error_num == 0) {
+                        this.UsersInfo = res.list_user;
+                    }
+                })
+
+            }else{
+                this.UsersInfo = [{user_name:'请左上角登陆'}];
+            }
         },
 
         onSubmit() {
-            var myDate = new Date();
-            this.commitData.user_email = this.form.user
-            this.commitData.message = this.form.message
-            this.commitData.msg_remark = this.form.msg_remark
-            this.commitData.msg_date = formatDate(myDate,'yyyy-MM-dd hh:mm:ss')
-            this.commitData.deal_flag = '0'
-            console.log('submit!',this.commitData.user_email);
-            console.log('submit!',this.commitData.message);
-            console.log('submit!',this.commitData.msg_remark);
-            console.log('submit!',this.commitData.msg_date);
-            console.log('submit!',this.commitData.deal_flag);
-
-
-            this.$axios({ 
-                url:"web/add_msg", 
-                method:'post', 
-                data:{ 
-                    Message:this.commitData
-                } 
-            }).then(function(response){ 
-                // if (response.data.error_num == 0) {
-                //      //this.$message.success('入库成功，等待处理')
-                // } else {
-                //     //this.$message.error('入库失败，请重试')
-                // }
-            }) .catch(function(err){
-                 console.log(err); 
-            })
-            // this.$http.post('web/add_msg',{params: {"Message":this.commitData}})
-            // .then((response) => {
-            //     var res = JSON.parse(response.bodyText)
-            //     if (res.error_num == 0) {
-            //         this.$message.success('入库成功，等待处理')
-            //     } else {
-            //         this.$message.error('入库失败，请重试')
-            //     console.log(res['msg'])
-            //     }
-            // })
+            var that = this;
+            if(this.textUser.userInfo.email != 'null'){    
+                var myDate = new Date();
+                this.commitData.user_email = this.form.user
+                this.commitData.message = this.form.message
+                this.commitData.msg_remark = this.form.msg_remark
+                this.commitData.msg_date = formatDate(myDate,'yyyy-MM-dd hh:mm:ss')
+                this.commitData.deal_flag = '0'
+                this.$axios({ 
+                    url:"web/add_msg",
+                    headers:{'Content-Type': "application/x-www-form-urlencoded"}, 
+                    method:'post', 
+                    data: Qs.stringify({
+                        user_email: this.commitData.user_email,
+                        message: this.commitData.message,
+                        msg_remark: this.commitData.msg_remark,
+                        msg_date: this.commitData.msg_date,
+                        deal_flag: this.commitData.deal_flag,
+                        deal_date: this.commitData.deal_date,
+                        deal_remark: this.commitData.deal_remark
+                    })
+                }).then(function(response){
+                    if (response.data.error_num == 0) {
+                        that.$message.success('入库成功，已经通知那个傻逼了')
+                    } else {
+                        that.$message.error('入库失败，你这个傻逼再试试')
+                    }
+                }) .catch(function(err){
+                    console.log(err); 
+                })
+            }else{
+                this.$message.error('你还没有登陆')
+            }
         }
     }
 }

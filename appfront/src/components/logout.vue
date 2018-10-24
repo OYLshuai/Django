@@ -83,7 +83,6 @@ export default {
                 var res = JSON.parse(response.bodyText)
                 if (res.error_num == 0) {
                     this.$store.dispatch('commitMessage',res);
-                    //this.$message.success('获取消息成功: '+ this.textUser.userInfo.name + '你共' + res['count'] + '条未读记录')
                     this.messageTip();
                 } else {
                     this.$message.error('获取消息失败: ' + res['msg'])

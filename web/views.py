@@ -138,11 +138,22 @@ def mod_msg(request):
 def add_msg(request):
     response = {}
     try:
-        MSG = Message(request.GET.get('Message'))
-        MSG.save()
+        message = Message(user_email=request.POST.get('user_email'), message=request.POST.get('message'),
+                          msg_date=request.POST.get('msg_date'), msg_remark=request.POST.get('msg_remark'),
+                          deal_remark=request.POST.get('deal_remark'), deal_flag=request.POST.get('deal_flag'))
+        print(message)
+        print(message.deal_date)
+        print(message.msg_date)
+        message.save()
         response['error_num'] = 0
         response['msg'] = 'success'
     except  Exception as e:
         response['msg'] = str(e)
+        print(e)
         response['error_num'] = 1
     return JsonResponse(response)
+
+
+
+##电子商城
+
