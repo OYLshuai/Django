@@ -20,4 +20,8 @@ urlpatterns = [
     url(r'^mod_msg$', views.mod_msg, ),
     url(r'^add_msg$', views.add_msg, ),
     url(r'^get_users$', views.get_users, ),
+    url(r'^add_goods$', views.add_goods, ),
+    url(r'^del_goods$', views.del_goods, ),
+    url(r'^show_goods$', views.show_goods, ),
+    url(r'^mod_goods$', views.mod_goods, ),
 ]

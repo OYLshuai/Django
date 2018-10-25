@@ -14,7 +14,7 @@
         <img src="./assets/image/logo.png" style="width: 120px;float: right;padding-top: 3px;">
       </el-header>
       
-      <el-container :span="20" style="height: 580px;">
+      <el-container :span="20" style="height: 580px;" >
         <el-aside  style="background-color: rgb(238, 241, 246)">
           <el-menu class="el-menu-vertical-demo" style="text-align: left">
             <el-submenu index="1">
@@ -26,11 +26,11 @@
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
-              <template slot="title"><i class="el-icon-news"></i>查询</template>
+              <template slot="title"><i class="el-icon-news"></i>电子商城</template>
               <el-menu-item-group>
-                <router-link to="/mark"><el-menu-item index="2-1">Mark</el-menu-item></router-link>
-                <el-menu-item index="2-2">待定</el-menu-item>
-                <el-menu-item index="2-3">待定</el-menu-item>
+                <router-link to="/mark"><el-menu-item index="2-1">商品管理</el-menu-item></router-link>
+                <el-menu-item index="2-2">商品交易</el-menu-item>
+                <el-menu-item index="2-3">交易订单</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">

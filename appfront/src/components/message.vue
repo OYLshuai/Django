@@ -72,13 +72,13 @@
     <el-dialog title="消息处理" :visible.sync="dealMsgFrom" width="30%" > 
       <el-form label-width="80px" :model="loginFrom" :ref="loginFrom" size="mini">
         <el-form-item label="日期"  prop="msg_date">
-            <el-input v-model="loginFrom.msg_date" ref="msg_date"></el-input>
+            <el-input v-model="loginFrom.msg_date" ref="msg_date"  :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="消息内容" prop="message">
-            <el-input v-model="loginFrom.message" ref="message"></el-input>
+            <el-input v-model="loginFrom.message" ref="message"  :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="消息备注" prop="msg_remark">
-            <el-input v-model="loginFrom.msg_remark" ref="msg_remark"></el-input>
+            <el-input v-model="loginFrom.msg_remark" ref="msg_remark"  :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="处理备注" prop="deal_remark">
             <el-input v-model="loginFrom.deal_remark" ref="deal_remark"></el-input>
@@ -87,7 +87,7 @@
             <el-input v-model="loginFrom.deal_date" ref="deal_date"></el-input>
         </el-form-item>
         <el-form-item label="处理状态" prop="deal_flag">
-            <el-input v-model="loginFrom.deal_flag" ref="deal_flag"></el-input>
+            <el-input v-model="loginFrom.deal_flag" ref="deal_flag"  :disabled="true"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -104,7 +104,7 @@ import formatDate from '../assets/js/data.js'
 
 export default {
   '/message': 'Message',
-    data(){
+  data(){
     return {
       showMsgFrom: false,
       dealMsgFrom: false,

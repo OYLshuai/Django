@@ -4,7 +4,7 @@ import json
 from django.core import serializers
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 
@@ -141,9 +141,6 @@ def add_msg(request):
         message = Message(user_email=request.POST.get('user_email'), message=request.POST.get('message'),
                           msg_date=request.POST.get('msg_date'), msg_remark=request.POST.get('msg_remark'),
                           deal_remark=request.POST.get('deal_remark'), deal_flag=request.POST.get('deal_flag'))
-        print(message)
-        print(message.deal_date)
-        print(message.msg_date)
         message.save()
         response['error_num'] = 0
         response['msg'] = 'success'
@@ -155,5 +152,79 @@ def add_msg(request):
 
 
 
-##电子商城
+##电子商城 begin
 
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def add_goods(request):
+    response = {}
+    try:
+        goods = Goods(goods_number=request.POST.get('goods_number'))
+        goods.save()
+        response['msg'] = 'success'
+        response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def del_goods(request):
+    response = {}
+    try:
+        goods = Goods.objects.get(goods_number=request.POST.get('goods_number'))
+        goods.delete()
+        response['msg'] = 'success'
+        response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def mod_goods(request):
+    response = {}
+    try:
+        goods_number = request.POST.get('goodsFrom[goods_number]')
+        goods = Goods.objects.filter(goods_number=goods_number)
+        goods.update(goods_name=request.POST.get('goodsFrom[goods_name]'),
+                     goods_value=request.POST.get('goodsFrom[goods_value]'),
+                     goods_integration=request.POST.get('goodsFrom[goods_integration]'),
+                     goods_repertory=request.POST.get('goodsFrom[goods_repertory]'),
+                     day_conversion_max=request.POST.get('goodsFrom[day_conversion_max]'),
+                     goods_img=request.POST.get('goodsFrom[goods_img]'),
+                     goods_describe=request.POST.get('goodsFrom[goods_describe]'),
+                     goods_end_date=request.POST.get('goodsFrom[goods_end_date]'))
+        response['error_num'] = 0
+        response['msg'] = 'success'
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def show_goods(request):
+    response = {}
+    try:
+        goods = Goods.objects.filter()
+        response['list'] = json.loads(serializers.serialize("json", goods))
+        count = Goods.objects.filter().count()
+        response['msg'] = 'success'
+        response['count'] = count
+        response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+
+    return JsonResponse(response)
+
+##电子商城 end

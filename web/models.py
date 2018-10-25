@@ -64,7 +64,7 @@ class Goods(models.Model):
     goods_repertory = models.IntegerField(verbose_name='商品库存', default='0')
     day_conversion_max = models.IntegerField(verbose_name='每日兑换上限', default='0')
     goods_img = models.ImageField(verbose_name='商品图片', upload_to='img')
-    goods_describe = models.CharField(max_length=1000, verbose_name='商品描述')
+    goods_describe = models.CharField(max_length=1000, verbose_name='商品描述', default='null')
     goods_end_date = models.DateField(verbose_name='商品结束兑换日期', null=True, blank=True, default=None)
 
     def __str__(self):

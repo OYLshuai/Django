@@ -18,6 +18,21 @@ const store = new Vuex.Store({
         count: " "
       },
       msg:"",
+      goodsCount: {
+        allGodds: [],
+        count: " "
+      },
+      goodsInfo: {
+        goods_number:'',
+        goods_value:'',
+        goods_integration: '',
+        goods_name: '',
+        goods_repertory: '',
+        day_conversion_max: '',
+        goods_describe: '',
+        goods_img: '',
+        goods_end_date:''
+      },
     },
     mutations: {
       //更新用户信息
@@ -33,6 +48,17 @@ const store = new Vuex.Store({
         state.userMessage.count = newMessage.count;
       },
       
+      //更新商品信息
+      updateGoods(state, newGoods) {
+        state.goodsInfo = newGoods;
+      },
+
+      //更新商品信息
+      updateGoodsCount(state, newGoodsCount) {
+        state.goodsCount.allGodds = newGoodsCount.list;
+        state.goodsCount.count = newGoodsCount.count;
+      },
+
       //测试
       updateMsg(state, data) {
         state.msg = data;
@@ -41,7 +67,9 @@ const store = new Vuex.Store({
     actions: {
       commitUserList:({commit},userInfo) => commit('updateUserInfo',userInfo),
       commitMsg:({commit},data) => commit('updateMsg',data),
-      commitMessage:({commit},newMessage) => commit('updateUserMessage',newMessage)
+      commitMessage:({commit},newMessage) => commit('updateUserMessage',newMessage),
+      commitGoodsInfo:({commit},newGoods) => commit('updateGoods',newGoods),
+      commitGoodsCount:({commit},newGoodsCount) => commit('updateGoodsCount',newGoodsCount)
 
     }
   })
