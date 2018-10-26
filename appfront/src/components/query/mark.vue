@@ -30,7 +30,10 @@
           <template slot-scope="scope"> {{ scope.row.fields.day_conversion_max }} </template>
         </el-table-column>
         <el-table-column  prop="goods_img" label="商品图片" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_img }} </template>
+           <template slot-scope="scope">
+          <!-- <template slot-scope="scope"> {{ scope.row.fields.goods_img }} </template> -->
+           <img :src="scope.row.fields.goods_img">
+          </template>
         </el-table-column>
         <el-table-column  prop="goods_describe" label="商品描述" width="180"> 
           <template slot-scope="scope"> {{ scope.row.fields.goods_describe }} </template>
@@ -76,6 +79,7 @@
         </el-form-item>
         <el-form-item label="商品图片" prop="goods_img">
             <el-input  v-model="goodsFrom.goods_img" ref="goods_img"></el-input>
+            <!-- <img :v-model="goodsFrom.goods_img" ref="goods_img" src={{ MEDIA_URL }}{{ goods_img }}> -->
         </el-form-item>
         <el-form-item label="商品描述" prop="goods_describe">
             <el-input  v-model="goodsFrom.goods_describe" ref="goods_describe"></el-input>
@@ -186,6 +190,7 @@ export default {
       this.showGoodsFrom = true;
     },
     deal(index, row){
+      this.uploadUrl = "http://127.0.0.1:8000/web/mod_goods?goods_number=" + row.pk
       this.goodsFrom = row.fields
       this.goodsFrom.goods_number = row.pk
       this.dealGoodsFrom = true;
@@ -216,10 +221,11 @@ export default {
       }).then(function(response){
           if (response.data.error_num == 0) {
             that.tableData = response.data.list
+            console.log("zhaotu",response.data.list[0].fields.goods_img.url);
             that.$store.dispatch('commitGoodsCount',response.data);
             that.$message.success('刷新成功:共 ' + that.textGoods.count + ' 件商品')
           } else {
-            that.$message.error('刷新成功，请稍后再试')
+            that.$message.error('刷新失败，请稍后再试')
           }
       }) .catch(function(err){
           console.log("错误信息：",err); 

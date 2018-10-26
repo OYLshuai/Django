@@ -53,7 +53,7 @@ class Employee(models.Model):
     vip_Flag = models.BooleanField(verbose_name='会员标志', editable=False, default=False)
 
     def __str__(self):
-        return self.employee_number
+        return self.employee_name
 
 
 class Goods(models.Model):
@@ -68,7 +68,7 @@ class Goods(models.Model):
     goods_end_date = models.DateField(verbose_name='商品结束兑换日期', null=True, blank=True, default=None)
 
     def __str__(self):
-        return self.goods_number
+        return self.goods_name
 
 
 class Order(models.Model):

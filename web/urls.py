@@ -5,6 +5,8 @@
 # @File    : urls.py
 
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 from . import views
 from . import textdb
 
@@ -24,4 +26,4 @@ urlpatterns = [
     url(r'^del_goods$', views.del_goods, ),
     url(r'^show_goods$', views.show_goods, ),
     url(r'^mod_goods$', views.mod_goods, ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,7 @@
 
 import json
 
+from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -188,27 +189,53 @@ def del_goods(request):
 
 
 @csrf_exempt
-@require_http_methods(["POST"])
 def mod_goods(request):
     response = {}
     try:
         goods_number = request.POST.get('goodsFrom[goods_number]')
-        goods = Goods.objects.filter(goods_number=goods_number)
-        goods.update(goods_name=request.POST.get('goodsFrom[goods_name]'),
-                     goods_value=request.POST.get('goodsFrom[goods_value]'),
-                     goods_integration=request.POST.get('goodsFrom[goods_integration]'),
-                     goods_repertory=request.POST.get('goodsFrom[goods_repertory]'),
-                     day_conversion_max=request.POST.get('goodsFrom[day_conversion_max]'),
-                     goods_img=request.POST.get('goodsFrom[goods_img]'),
-                     goods_describe=request.POST.get('goodsFrom[goods_describe]'),
-                     goods_end_date=request.POST.get('goodsFrom[goods_end_date]'))
+        if goods_number is None:
+            goods_number_str = request.GET.get('goods_number')
+            goods = Goods.objects.filter(goods_number=goods_number_str)
+            goods_img_str = request.FILES.get('file')
+            goods.update(goods_img=request.FILES.get('file'))
+            msg = '图片已存'
+        else:
+            goods = Goods.objects.filter(goods_number=goods_number)
+            goods.update(goods_name=request.POST.get('goodsFrom[goods_name]'),
+                         goods_value=request.POST.get('goodsFrom[goods_value]'),
+                         goods_integration=request.POST.get('goodsFrom[goods_integration]'),
+                         goods_repertory=request.POST.get('goodsFrom[goods_repertory]'),
+                         day_conversion_max=request.POST.get('goodsFrom[day_conversion_max]'),
+                         goods_img=request.FILES.get('file'),
+                         goods_describe=request.POST.get('goodsFrom[goods_describe]'),
+                         goods_end_date=request.POST.get('goodsFrom[goods_end_date]'))
+            msg = '商品信息已更新'
+        response['msg'] = msg
         response['error_num'] = 0
-        response['msg'] = 'success'
     except Exception as e:
         response['msg'] = str(e)
         response['error_num'] = 1
     return JsonResponse(response)
 
+
+# @csrf_exempt
+# # @require_http_methods(["POST"])
+# # def show_goods(request):
+# #     response = {}
+# #     try:
+# #         goods = Goods.objects.filter()
+# #         response['list'] = json.loads(serializers.serialize("json", goods))
+# #         for i in goods:
+# #             print (i.goods_img.url)
+# #         count = Goods.objects.filter().count()
+# #         response['msg'] = 'success'
+# #         response['count'] = count
+# #         response['error_num'] = 0
+# #     except  Exception as e:
+# #         response['msg'] = str(e)
+# #         response['error_num'] = 1
+# #
+# #     return JsonResponse(response)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -216,15 +243,18 @@ def show_goods(request):
     response = {}
     try:
         goods = Goods.objects.filter()
-        response['list'] = json.loads(serializers.serialize("json", goods))
+        response['list'] = goods
+        # for i in goods:
+        #     print (i.goods_img.url)
         count = Goods.objects.filter().count()
         response['msg'] = 'success'
         response['count'] = count
         response['error_num'] = 0
+        print (response)
     except  Exception as e:
         response['msg'] = str(e)
         response['error_num'] = 1
 
-    return JsonResponse(response)
+    return render(request, 'index.html', {'response': response})
 
 ##电子商城 end
