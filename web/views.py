@@ -219,42 +219,52 @@ def mod_goods(request):
 
 
 # @csrf_exempt
-# # @require_http_methods(["POST"])
-# # def show_goods(request):
-# #     response = {}
-# #     try:
-# #         goods = Goods.objects.filter()
-# #         response['list'] = json.loads(serializers.serialize("json", goods))
-# #         for i in goods:
-# #             print (i.goods_img.url)
-# #         count = Goods.objects.filter().count()
-# #         response['msg'] = 'success'
-# #         response['count'] = count
-# #         response['error_num'] = 0
-# #     except  Exception as e:
-# #         response['msg'] = str(e)
-# #         response['error_num'] = 1
-# #
-# #     return JsonResponse(response)
+# @require_http_methods(["POST"])
+# def show_goods(request):
+#     response = {}
+#     try:
+#         goods = Goods.objects.filter()
+#         response['list'] = json.loads(serializers.serialize("json", goods))
+#         for i in goods:
+#             print (i.goods_img.url)
+#         count = Goods.objects.filter().count()
+#         response['msg'] = 'success'
+#         response['count'] = count
+#         response['error_num'] = 0
+#     except  Exception as e:
+#         response['msg'] = str(e)
+#         response['error_num'] = 1
+#
+#     return JsonResponse(response)
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def show_goods(request):
     response = {}
     try:
-        goods = Goods.objects.filter()
-        response['list'] = goods
-        # for i in goods:
-        #     print (i.goods_img.url)
+        queryset = Goods.objects.filter()
+        goods_list = []
+        for goods in queryset:
+            goods_list.append({
+                'goods_number': goods.goods_number,
+                'goods_name': goods.goods_name,
+                'goods_value': goods.goods_value,
+                'goods_integration': goods.goods_integration,
+                'goods_repertory': goods.goods_repertory,
+                'day_conversion_max': goods.day_conversion_max,
+                'goods_describe': goods.goods_describe,
+                'goods_end_date': goods.goods_end_date,
+                'goods_img': goods.goods_img.url if goods.goods_img else ''
+            })
+        response['list'] = goods_list
         count = Goods.objects.filter().count()
         response['msg'] = 'success'
         response['count'] = count
         response['error_num'] = 0
-        print (response)
     except  Exception as e:
         response['msg'] = str(e)
         response['error_num'] = 1
 
-    return render(request, 'index.html', {'response': response})
+    return JsonResponse(response)
 
 ##电子商城 end

@@ -12,34 +12,35 @@
     <el-card shadow="hover" >
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="goods_number" label="商品号" sortable width="180" > 
-          <template slot-scope="scope"> {{ scope.row.pk }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_number }} </template>
         </el-table-column>
         <el-table-column prop="goods_name" label="商品名" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_name }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_name }} </template>
         </el-table-column>
         <el-table-column  prop="goods_value" label="市价" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_value }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_value }} </template>
         </el-table-column> 
         <el-table-column  prop="goods_integration" label="积分价值" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_integration }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_integration }} </template>
         </el-table-column>
         <el-table-column  prop="goods_repertory" label="商品库存" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_repertory }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_repertory }} </template>
         </el-table-column>
         <el-table-column  prop="day_conversion_max" label="每日兑换上限" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.day_conversion_max }} </template>
+          <template slot-scope="scope"> {{ scope.row.day_conversion_max }} </template>
         </el-table-column>
         <el-table-column  prop="goods_img" label="商品图片" width="180"> 
            <template slot-scope="scope">
           <!-- <template slot-scope="scope"> {{ scope.row.fields.goods_img }} </template> -->
-           <img :src="scope.row.fields.goods_img">
+           <!-- <img :src="scope.row.goods_img"> -->
+           <img src="/media/img/yingtaojianpan.jpg">
           </template>
         </el-table-column>
         <el-table-column  prop="goods_describe" label="商品描述" width="180"> 
-          <template slot-scope="scope"> {{ scope.row.fields.goods_describe }} </template>
+          <template slot-scope="scope"> {{ scope.row.goods_describe }} </template>
         </el-table-column>
         <el-table-column  prop="goods_end_date" label="商品结束兑换日期" width="180"> 
-          <template slot-scope="scope"> {{farmtDateTime(scope.row.fields.goods_end_date)}} </template>
+          <template slot-scope="scope"> {{farmtDateTime(scope.row.goods_end_date)}} </template>
         </el-table-column>
         <el-table-column prop="operate" label="操作" min-width="60" fixed="right">
           <template slot-scope="scope">
@@ -125,6 +126,7 @@
               :on-exceed="handleExceed"
               :file-list="fileList">
               <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">当前图片：{{goodsFrom.goods_img}}</div>
             </el-upload>
         </el-form-item>
         <el-form-item label="商品描述" prop="goods_describe">
@@ -185,19 +187,19 @@ export default {
       } 
     },
     show(index, row){
-      this.goodsFrom = row.fields
-      this.goodsFrom.goods_number = row.pk
+      this.goodsFrom = row
+      //this.goodsFrom.goods_number = row.pk
       this.showGoodsFrom = true;
     },
     deal(index, row){
-      this.uploadUrl = "http://127.0.0.1:8000/web/mod_goods?goods_number=" + row.pk
-      this.goodsFrom = row.fields
-      this.goodsFrom.goods_number = row.pk
+      this.uploadUrl = "http://127.0.0.1:8000/web/mod_goods?goods_number=" + row.goods_number
+      this.goodsFrom = row
+      //this.goodsFrom.goods_number = row.pk
       this.dealGoodsFrom = true;
     },
     del(index, row){
-      this.goodsFrom = row.fields
-      this.goodsFrom.goods_number = row.pk
+      this.goodsFrom = row
+      //this.goodsFrom.goods_number = row.pk
       this.dealGoodsFrom = true;
     },
     onSubmit(formName) {
@@ -219,9 +221,10 @@ export default {
           headers:{'Content-Type': "application/x-www-form-urlencoded"}, 
           method:'post'
       }).then(function(response){
+        console.log("数据",response);
           if (response.data.error_num == 0) {
             that.tableData = response.data.list
-            console.log("zhaotu",response.data.list[0].fields.goods_img.url);
+            //console.log("zhaotu",response.data.list[0].fields.goods_img.url);
             that.$store.dispatch('commitGoodsCount',response.data);
             that.$message.success('刷新成功:共 ' + that.textGoods.count + ' 件商品')
           } else {
